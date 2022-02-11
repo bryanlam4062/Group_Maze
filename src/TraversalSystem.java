@@ -1,83 +1,99 @@
+import java.util.Locale;
+import java.util.Scanner;
+
 public class TraversalSystem {
 
-    private static int ROWS;
-    private static int COLUMN;
+    private static boolean left;
+    private static boolean right;
+    private static boolean up;
+    private static boolean down;
 
-    /**
-     * sets rows
-     * @param theRows side
-     */
-    public static void setROWS(int theRows) {
-        ROWS = theRows;
+    public static boolean isLeft() {
+        return left;
     }
 
-    /**
-     * sets column
-     * @param theColumn depth
-     */
-    public static void setCOLUMN(int theColumn) {
-        COLUMN = theColumn;
+    public static void setLeft(boolean left) {
+        TraversalSystem.left = left;
     }
 
-    /**
-     * Set up the board without any bombs.
-     *
-     * @param theBoard board
-     */
-    public static void startGame(char[][] theBoard) {
-        for (int row = 0; row < COLUMN; row++) {
-            for (int col = 0; col < ROWS; col++) {
-                theBoard[col][row] = '.';
-            }
-        }
+    public static boolean isRight() {
+        return right;
     }
-    /**
-     * checks that row and col given are within bound of the board.
-     * @param theCol col
-     * @param theRow row
-     * @return boolean
-     */
-    public static  boolean inBoard(int theCol, int theRow) {
-        return (theRow >= 0) && ( theRow < COLUMN) &&
-                (theCol >= 0) && ( theCol < ROWS);
+
+    public static void setRight(boolean right) {
+        TraversalSystem.right = right;
+    }
+
+    public static boolean isUp() {
+        return up;
+    }
+
+    public static void setUp(boolean up) {
+        TraversalSystem.up = up;
+    }
+
+    public static boolean isDown() {
+        return down;
+    }
+
+    public static void setDown(boolean down) {
+        TraversalSystem.down = down;
     }
 
     /**
      * checks surrounding doors that is available to travel to.
-     *
      * @param TheCol col
      * @param theRow row
      * @param theBoard board
      */
-    public static void checkPaths(int TheCol, int theRow, char[][] theBoard) {
-        int count = 0;
-        if(theBoard[theRow][TheCol] != '*') {
+    public static void checkPaths(int TheCol, int theRow, RoomNode[][] theBoard) {
+        System.out.println("choose your path: ");
+        if(theBoard[theRow][TheCol].getRoom()){
             //topmiddle
-            if (inBoard(theRow, TheCol - 1)) {
-                if (theBoard[theRow][TheCol - 1] == '*') {
-                    count++;
+            if (InitializeMaze.inBoard(theRow, TheCol - 1)) {
+                if (theBoard[theRow][TheCol - 1].getRoom()) {
+                    setUp(true);
+                    System.out.println("up");
                 }
             }
             //leftmidlle
-            if (inBoard(theRow - 1, TheCol)) {
-                if (theBoard[theRow - 1][TheCol] == '*') {
-                    count++;
+            if (InitializeMaze.inBoard(theRow - 1, TheCol)) {
+                if (theBoard[theRow - 1][TheCol].getRoom()) {
+                    setLeft(true);
+                    System.out.println("left");
                 }
             }
             //rightmiddle
-            if (inBoard(theRow + 1, TheCol)) {
-                if (theBoard[theRow + 1][TheCol] == '*') {
-                    count++;
+            if (InitializeMaze.inBoard(theRow + 1, TheCol)) {
+                if (theBoard[theRow + 1][TheCol].getRoom()) {
+                    setRight(true);
+                    System.out.println("right");
                 }
             }
             //middlebottom
-            if (inBoard(theRow, TheCol + 1)) {
-                if (theBoard[theRow][TheCol + 1] == '*') {
-                    count++;
+            if (InitializeMaze.inBoard(theRow, TheCol + 1)) {
+                if (theBoard[theRow][TheCol + 1].getRoom()) {
+                    setDown(true);
+                    System.out.println("down");
                 }
             }
-            theBoard[theRow][TheCol] = (char) (count+'0');
         }
+    }
+
+    public int nextMove(Scanner theScan) {
+        String ans = theScan.next();
+
+        switch(ans.toLowerCase(Locale.ROOT)) {
+            case "up":
+                return 1;
+            case "left":
+                return 2;
+            case "right":
+                return 3;
+            case "down":
+                return 4;
+        }
+        return -1;
     }
 
 
