@@ -1,20 +1,47 @@
 public class RoomNode<T> {
 
-    Boolean room = true;
+    Boolean room;
+    String door;
 
     /**
      * Initializes the lock room node.
      */
     public RoomNode() {
         room = true;
+        door = "open";
     }
+    public RoomNode(boolean theLock) {
+        room = false;
+        door = "locked";
+    }
+    public RoomNode(String thePlayer) {
+        room = true;
+        door = thePlayer;
+    }
+
     /**
      * Get room.
      * @return availability of room
      */
-    public Boolean getRoom() {
+    public Boolean getRoom(){
         return room;
     }
+
+    public String getDoor() {
+        return door;
+    }
+
+    public void setDoor(String door) {
+        this.door = door;
+    }
+    /**
+     * set room
+     * @param room key
+     */
+    public void setRoom(Boolean room) {
+        this.room = null;
+    }
+
     /**
      * Checks if answer correct, then locks
      * based on answer.
@@ -28,9 +55,15 @@ public class RoomNode<T> {
      * @return boolean in string form.
      */
     public String toString() {
-        if(room) {
-            return "true";
+        if(door.equalsIgnoreCase("Player")) {
+            return "Player";
         }
-        return "false";
+        else if(door.equalsIgnoreCase("end")) {
+            return "end";
+        }
+        else if(room) {
+            return "open";
+        }
+        return "close";
     }
 }
