@@ -11,7 +11,7 @@ public class RoomNode<T> {
         door = "open";
     }
     public RoomNode(boolean theLock) {
-        room = false;
+        room = theLock;
         door = "locked";
     }
     public RoomNode(String thePlayer) {

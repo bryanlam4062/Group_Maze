@@ -34,6 +34,9 @@ public class InitializeMaze {
     public static <T> void playerSpawn(RoomNode<T>[][] theBoard) {
         theBoard[0][0] = new RoomNode<>("Player");
     }
+
+
+
     public static <T> void endRoom(int theRows, int theCol, RoomNode<T>[][] theBoard) {
         theBoard[theRows][theCol] = new RoomNode<>("end");
     }
