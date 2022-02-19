@@ -1,5 +1,3 @@
-import java.util.Locale;
-import java.util.Scanner;
 
 public class TraversalSystem {
 
@@ -7,6 +5,7 @@ public class TraversalSystem {
     private static boolean RIGHT;
     private static boolean UP;
     private static boolean DOWN;
+    private static boolean CHEAT;
     private static int playerRow = 0;
     private static int playerCol = 0;
 
@@ -58,6 +57,11 @@ public class TraversalSystem {
         playerCol = theCol;
     }
 
+    public static void setCHEAT(boolean b) {
+        CHEAT = b;
+    }
+
+
     /**
      * checks surrounding doors that is available to travel to.
      * @param theRow row
@@ -69,100 +73,115 @@ public class TraversalSystem {
         setLEFT(false);
         setRIGHT(false);
         setDOWN(false);
-        System.out.println("Path(s) available: ");
+        String print = "Path(s) available: ";
         if(theBoard[theRow][theCol].getRoom()){
             //left
             if (InitializeMaze.inBoard(theRow, theCol - 1)) {
                 if (theBoard[theRow][theCol - 1].getRoom()) {
                     setLEFT(true);
-                    System.out.println("left");
+                    print += "left ";
                 }
             }
             //up
             if (InitializeMaze.inBoard(theRow - 1 , theCol)) {
                 if (theBoard[theRow - 1][theCol].getRoom()) {
                     setUP(true);
-                    System.out.println("up");
+                    print += "up ";
                 }
             }
             //down
             if (InitializeMaze.inBoard(theRow + 1, theCol)) {
                 if (theBoard[theRow + 1][theCol].getRoom()) {
                     setDOWN(true);
-                    System.out.println("down");
+                    print += "down ";
                 }
             }
             //right
             if (InitializeMaze.inBoard(theRow, theCol + 1)) {
                 if (theBoard[theRow][theCol + 1].getRoom()) {
                     setRIGHT(true);
-                    System.out.println("right");
+                    print += "right";
                 }
             }
         }
-    }
-
-    public static String nextMove(Scanner theScan) {
-        boolean ansCheck = true;
-        String ans = null;
-        while(ansCheck) {
-            System.out.println("Type next move (ex: right)");
-            ans = theScan.next();
-
-            switch(ans.toLowerCase(Locale.ROOT)) {
-                case "up":
-                    if (isUP()) {
-                        ansCheck = false;
-                    }
-                    break;
-                case "left":
-                    if (isLEFT()) {
-                        ansCheck = false;
-                    }
-                    break;
-                case "right":
-                    if (isRIGHT()) {
-                        ansCheck = false;
-                    }
-                    break;
-                case "down":
-                    if (isDOWN()) {
-                        ansCheck = false;
-                    }
-                    break;
-            }
-            if(ansCheck){
-                System.out.println("not a valid answer, try again.");
-            }
-        }
-        return ans;
-    }
-    public static <T> void playerMove(String theMove, int theRow, int theCol, RoomNode<T>[][] theBoard) {
-        theBoard[theRow][theCol] = new RoomNode<>();
-        switch (theMove) {
-            case "up" -> {
-                theBoard[theRow - 1][theCol] = new RoomNode<>("Player");
-                playerRow -= 1;
-            }
-            case "left" -> {
-                theBoard[theRow][theCol - 1] = new RoomNode<>("Player");
-                playerCol -= 1;
-            }
-            case "right" -> {
-                theBoard[theRow][theCol + 1] = new RoomNode<>("Player");
-                playerCol += 1;
-            }
-            case "down" -> {
-                theBoard[theRow + 1][theCol] = new RoomNode<>("Player");
-                playerRow += 1;
-            }
-        }
+        System.out.println(print);
+        //set print to label.
     }
 
     public static <T> void lockRoom(int theRow, int theCol, RoomNode<T>[][] theBoard) {
         theBoard[theRow][theCol] = new RoomNode<>(false);
     }
 
+    public static <T> void moveLeftButton(String theMove, int theRow, int theCol, RoomNode<T>[][] theBoard){
+        if (isLEFT()){
+            //give question, return answer
+            boolean answer = true;
+            if(answer || CHEAT) {
+                //set label CORRECT!
+                theBoard[theRow][theCol] = new RoomNode<>();
+                theBoard[theRow - 1][theCol] = new RoomNode<>("Player");
+                setPlayerRow(theRow-1);
+            } else {
+                //set label WRONG!
+                lockRoom(theRow-1, theCol, theBoard);
+            }
+        } else {
+            //set label to "left not available"
+        }
+    }
+    public static <T> void moveRightButton(String theMove, int theRow, int theCol, RoomNode<T>[][] theBoard){
+        if(isRIGHT()) {
+            //give question, return answer
+            boolean answer = true;
+            if(answer || CHEAT) {
+                //set label CORRECT!
+                theBoard[theRow][theCol] = new RoomNode<>();
+                theBoard[theRow][theCol - 1] = new RoomNode<>("Player");
+                setPlayerCol(theCol-1);
+            } else {
+                //set label WRONG!
+                lockRoom(theRow, theCol-1, theBoard);
+            }
+        } else {
+            //set label to "right not available"
+        }
+
+    }
+    public static <T> void moveUpButton(String theMove, int theRow, int theCol, RoomNode<T>[][] theBoard){
+        if(isUP()) {
+            //give question, return answer
+            boolean answer = true;
+            if(answer|| CHEAT) {
+                //set label CORRECT!
+                theBoard[theRow][theCol] = new RoomNode<>();
+                theBoard[theRow][theCol + 1] = new RoomNode<>("Player");
+                setPlayerCol(theCol+1);
+            }  else {
+                //set label WRONG!
+                lockRoom(theRow, theCol+1, theBoard);
+            }
+        } else {
+            //set label to "up not available"
+        }
+
+    }
+    public static <T> void moveDownButton(String theMove, int theRow, int theCol, RoomNode<T>[][] theBoard){
+        if(isDOWN()) {
+            //give question, return answer
+            boolean answer = true;
+            if(answer|| CHEAT) {
+                //set label CORRECT!
+                theBoard[theRow][theCol] = new RoomNode<>();
+                theBoard[theRow + 1][theCol] = new RoomNode<>("Player");
+                setPlayerRow(theRow+1);
+            } else {
+                //set label WRONG!
+                lockRoom(theRow+1, theCol, theBoard);
+            }
+        } else {
+            //set label to "down not available"
+        }
+    }
 
 
 }
