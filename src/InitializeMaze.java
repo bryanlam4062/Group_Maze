@@ -1,10 +1,34 @@
+/**
+ * InitializeMaze.java
+ *
+ * Sets up the maze to start game.
+ *
+ * @author Bryan lam
+ * @version Winter 2022
+ */
 public class InitializeMaze {
 
     private static int ROWS;
     private static int COLUMN;
 
     /**
-     * sets rows
+     * Get rows.
+     * @return the rows
+     */
+    public static int getROWS() {
+        return ROWS;
+    }
+
+    /**
+     * Get column.
+     * @return the column
+     */
+    public static int getCOLUMN() {
+        return COLUMN;
+    }
+
+    /**
+     * Sets rows
      * @param theRows side
      */
     public static void setROWS(int theRows) {
@@ -12,7 +36,7 @@ public class InitializeMaze {
     }
 
     /**
-     * sets column
+     * sets column.
      * @param theColumn depth
      */
     public static void setCOLUMN(int theColumn) {
@@ -24,23 +48,38 @@ public class InitializeMaze {
      *
      * @param theBoard board
      */
-    public static <T> void buildBoard(RoomNode<T>[][] theBoard) {
+    public static void buildBoard(Room[][] theBoard) {
         for (int row = 0; row < COLUMN; row++) {
             for (int col = 0; col < ROWS; col++) {
-                theBoard[col][row] = new RoomNode<>();
+                theBoard[col][row] = new Room();
             }
         }
     }
-    public static <T> void playerSpawn(RoomNode<T>[][] theBoard) {
-        theBoard[0][0] = new RoomNode<>("Player");
+
+    /**
+     * Spawns player at top left of board.
+     * @param theBoard the board
+     */
+    public static void playerSpawn(Room[][] theBoard) {
+        TraversalSystem.setPlayerRow(0);
+        TraversalSystem.setPlayerCol(0);
+        theBoard[0][0] = new Room("Player");
     }
 
-
-
-    public static <T> void endRoom(int theRows, int theCol, RoomNode<T>[][] theBoard) {
-        theBoard[theRows][theCol] = new RoomNode<>("end");
+    /**
+     * Sets end room at bottom left of board.
+     * @param theBoard the board
+     */
+    public static void endRoom(Room[][] theBoard) {
+        theBoard[ROWS-1][COLUMN-1] = new Room("end");
     }
-    public static <T> boolean checkEnd(RoomNode<T>[][] theBoard) {
+
+    /**
+     * Checks if player is at end room.
+     * @param theBoard the board
+     * @return boolean
+     */
+    public static boolean checkEnd(Room[][] theBoard) {
         if(theBoard[ROWS-1][COLUMN-1].getDoor().equals("Player")) {
             System.out.println("Congratulation!!!\n" + "You Escape!");
             return true;
