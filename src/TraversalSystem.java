@@ -18,12 +18,13 @@ public class TraversalSystem {
     private static boolean RIGHT;
     private static boolean UP;
     private static boolean DOWN;
-    private static boolean CHEAT;
+    private static boolean CHEAT = true;
     private static int playerRow;
     private static int playerCol;
 
     /**
      * Get left.
+     *
      * @return boolean
      */
     public static boolean isLEFT() {
@@ -32,6 +33,7 @@ public class TraversalSystem {
 
     /**
      * Set left.
+     *
      * @param LEFT left
      */
     public static void setLEFT(boolean LEFT) {
@@ -40,6 +42,7 @@ public class TraversalSystem {
 
     /**
      * Get right.
+     *
      * @return boolean
      */
     public static boolean isRIGHT() {
@@ -48,6 +51,7 @@ public class TraversalSystem {
 
     /**
      * Set right.
+     *
      * @param theRIGHT right
      */
     public static void setRIGHT(final boolean theRIGHT) {
@@ -56,6 +60,7 @@ public class TraversalSystem {
 
     /**
      * Get up.
+     *
      * @return boolean
      */
     public static boolean isUP() {
@@ -64,6 +69,7 @@ public class TraversalSystem {
 
     /**
      * Set up.
+     *
      * @param theUP up
      */
     public static void setUP(boolean theUP) {
@@ -72,6 +78,7 @@ public class TraversalSystem {
 
     /**
      * Get down.
+     *
      * @return boolean
      */
     public static boolean isDOWN() {
@@ -80,6 +87,7 @@ public class TraversalSystem {
 
     /**
      * Set down.
+     *
      * @param theDOWN down
      */
     public static void setDOWN(final boolean theDOWN) {
@@ -88,6 +96,7 @@ public class TraversalSystem {
 
     /**
      * Get player row.
+     *
      * @return int
      */
     public static int getPlayerRow() {
@@ -96,6 +105,7 @@ public class TraversalSystem {
 
     /**
      * Get player column.
+     *
      * @return int
      */
     public static int getPlayerCol() {
@@ -104,6 +114,7 @@ public class TraversalSystem {
 
     /**
      * Set player row.
+     *
      * @param theplayerRow int player rows
      */
     public static void setPlayerRow(int theplayerRow) {
@@ -112,6 +123,7 @@ public class TraversalSystem {
 
     /**
      * Set player column.
+     *
      * @param thePlayerCol int player column
      */
     public static void setPlayerCol(int thePlayerCol) {
@@ -120,6 +132,7 @@ public class TraversalSystem {
 
     /**
      * Get cheat.
+     *
      * @return boolean
      */
     public static boolean isCHEAT() {
@@ -128,6 +141,7 @@ public class TraversalSystem {
 
     /**
      * Set cheat.
+     *
      * @param theCheat boolean
      */
     public static void setCHEAT(boolean theCheat) {
@@ -136,6 +150,7 @@ public class TraversalSystem {
 
     /**
      * Check the paths available to traverse.
+     *
      * @param theBoard the board
      */
     public static void checkPaths(final Room[][] theBoard) {
@@ -144,7 +159,7 @@ public class TraversalSystem {
         setRIGHT(false);
         setDOWN(false);
         System.out.println("\nPath(s) available: ");
-        if(theBoard[playerRow][playerCol].getKey()){
+        if (theBoard[playerRow][playerCol].getKey()) {
             //left
             if (InitializeMaze.inBoard(playerRow, playerCol - 1)) {
                 if (theBoard[playerRow][playerCol - 1].getKey()) {
@@ -153,7 +168,7 @@ public class TraversalSystem {
                 }
             }
             //up
-            if (InitializeMaze.inBoard(playerRow - 1 , playerCol)) {
+            if (InitializeMaze.inBoard(playerRow - 1, playerCol)) {
                 if (theBoard[playerRow - 1][playerCol].getKey()) {
                     setUP(true);
                     System.out.print("up ");
@@ -178,6 +193,7 @@ public class TraversalSystem {
 
     /**
      * Check for validity of the user's input.
+     *
      * @param theScan Scanner
      * @return the move
      */
@@ -210,6 +226,7 @@ public class TraversalSystem {
                     }
                     break;
                 case "save":
+                case "load":
                     ansCheck = false;
                     break;
             }
@@ -222,48 +239,59 @@ public class TraversalSystem {
 
     /**
      * Player move.
-     * @param theMove String move
+     *
+     * @param theMove  String move
      * @param theBoard the board
      */
-    public static void playerMove (final String theMove, final Room[][]theBoard){
+    public static void playerMove(final String theMove, final Room[][] theBoard) {
         theBoard[playerRow][playerCol] = new Room();
         switch (theMove) {
             case "up" -> {
-                //check if answer is correct
+                if(isCHEAT()) {
                 theBoard[playerRow - 1][playerCol] = new Room("Player");
                 playerRow -= 1;
-                //else lock room
+                } else {
+                    lockRoom(playerRow - 1, playerCol, theBoard);
+                }
             }
             case "left" -> {
-                //check if answer is correct
+                if(isCHEAT()) {
                 theBoard[playerRow][playerCol - 1] = new Room("Player");
                 playerCol -= 1;
-                //else lock room
+                } else {
+                    lockRoom(playerRow - 1, playerCol, theBoard);
+                }
             }
             case "right" -> {
-                //check if answer is correct
+                if(isCHEAT()) {
                 theBoard[playerRow][playerCol + 1] = new Room("Player");
                 playerCol += 1;
-                //else lock room
+                } else {
+                    lockRoom(playerRow - 1, playerCol, theBoard);
+                }
             }
             case "down" -> {
-                //check if answer is correct
+                if(isCHEAT()) {
                 theBoard[playerRow + 1][playerCol] = new Room("Player");
                 playerRow += 1;
-                //else lock room
+                } else {
+                    lockRoom(playerRow - 1, playerCol, theBoard);
+                }
             }
         }
     }
 
     /**
      * Locks room.
-     * @param theRow the row of room
-     * @param theCol column of room
+     *
+     * @param theRow   the row of room
+     * @param theCol   column of room
      * @param theBoard the board
      */
-    public static void lockRoom(final int theRow, final int theCol, final Room[][]theBoard){
+    public static void lockRoom(final int theRow, final int theCol, final Room[][] theBoard) {
         theBoard[theRow][theCol] = new Room(false);
     }
+
 
     /**
      * Checks if player can reach end room.
@@ -271,6 +299,7 @@ public class TraversalSystem {
      * @return boolean
      */
     public static boolean winnableCheck(final Room[][] theBoard) {
+        int[][] copyBoard = new int[InitializeMaze.getROWS()][InitializeMaze.getCOLUMN()];
 
         //use to build the paths
         class pair {
@@ -296,8 +325,7 @@ public class TraversalSystem {
             q.remove();
 
             // Mark as visited
-            theBoard[p.Item1][p.Item2].setDoor("close");
-
+            copyBoard[p.Item1][p.Item2] = -1;
 
             // Check all four directions
             for (int i = 0; i < 4; i++) {
@@ -307,9 +335,11 @@ public class TraversalSystem {
 
                 // Not blocked and valid
                 if (a >= 0 && b >= 0 && a < InitializeMaze.getROWS() && b < InitializeMaze.getCOLUMN()
-                        && !theBoard[a][b].getDoor().equalsIgnoreCase("close")) {
-                    q.add(new pair(a, b));
+                        && !theBoard[a][b].getDoor().equalsIgnoreCase("close") ) {
+                    if(copyBoard[a][b] != -1)
+                        q.add(new pair(a, b));
                 }
+
                 // reach end room
                 if (p.Item1 == InitializeMaze.getROWS() - 1 && p.Item2 == InitializeMaze.getCOLUMN() - 1) {
                     theBoard[InitializeMaze.getROWS()-1][InitializeMaze.getCOLUMN()-1].setDoor("end");

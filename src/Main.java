@@ -26,8 +26,13 @@ public class Main {
             File file = new File(source + "saveData.txt");
             Scanner sc = new Scanner(file);
 
+            System.out.println("load board? (y or n)");
+            String load = scan.next();
 
-            board = SavingProgress.load(board, sc);
+            //load board
+            if(load.equalsIgnoreCase("y")) {
+                board = SavingProgress.load(board, sc);
+            }
 
             System.out.println(Arrays.deepToString(board).replace("], ", "\n")
                     .replace("[[", "")
@@ -42,7 +47,9 @@ public class Main {
                     TraversalSystem.checkPaths(board);
                     System.out.println("\nsave game? (type save)");
                     String move = TraversalSystem.nextMove(scan);
+                    //question
                     TraversalSystem.playerMove(move, board);
+                    //inform user right or wrong
 
                     //update board
                     System.out.println(Arrays.deepToString(board).replace("], ", "\n")
@@ -50,7 +57,6 @@ public class Main {
                             .replace("]]", "")
                             .replace("[", "")
                             .replace(",", ""));
-
 
                     //game end when player reach end or user save game
                     gameContinue = (!InitializeMaze.checkEnd(board));
@@ -65,7 +71,10 @@ public class Main {
                 }
             }
             //restarts if user wants
-            System.out.println("Start Over? (re) \n" + "End? (default)\n");
+            System.out.println("""
+                    Start Over? (re)\s
+                    End? (default)
+                    """);
             String ans = scan.next();
             if(!ans.equalsIgnoreCase("re")) {
                 game = false;
