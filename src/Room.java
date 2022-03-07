@@ -26,7 +26,7 @@ public class Room {
      */
     public Room(boolean theLock) {
         key = theLock;
-        door = "locked";
+        door = "close";
     }
 
     /**

@@ -22,35 +22,52 @@ public class Main {
             InitializeMaze.playerSpawn(board);
             InitializeMaze.endRoom(board);
 
+            String source = "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\";
+            File file = new File(source + "saveData.txt");
+            Scanner sc = new Scanner(file);
+
+
+            board = SavingProgress.load(board, sc);
+
             System.out.println(Arrays.deepToString(board).replace("], ", "\n")
                     .replace("[[", "")
                     .replace("]]", "")
                     .replace("[", "")
                     .replace(",", ""));
 
-//            String source = "C:\\Users\\bryan\\Documents\\git old\\";
-//            File file = new File(source + "saveData.txt");
-//            Scanner sc = new Scanner(file);
-//
-//            board = SavingProgress.load(board, sc);
-//            SavingProgress.save(board);
             while(gameContinue) {
-                //checks and move
-                TraversalSystem.checkPaths(board);
-                String move = TraversalSystem.nextMove(scan);
-                TraversalSystem.playerMove(move, board);
+                //checks if game is winnable
+                if(TraversalSystem.winnableCheck(board)) {
+                    //checks and move
+                    TraversalSystem.checkPaths(board);
+                    System.out.println("\nsave game? (type save)");
+                    String move = TraversalSystem.nextMove(scan);
+                    TraversalSystem.playerMove(move, board);
 
-                System.out.println(Arrays.deepToString(board).replace("], ", "\n")
-                        .replace("[[", "")
-                        .replace("]]", "")
-                        .replace("[", "")
-                        .replace(",", ""));
-                gameContinue = (!InitializeMaze.checkEnd(board));
+                    //update board
+                    System.out.println(Arrays.deepToString(board).replace("], ", "\n")
+                            .replace("[[", "")
+                            .replace("]]", "")
+                            .replace("[", "")
+                            .replace(",", ""));
+
+
+                    //game end when player reach end or user save game
+                    gameContinue = (!InitializeMaze.checkEnd(board));
+                    if(move.equalsIgnoreCase("save")) {
+                        SavingProgress.save(board);
+                        gameContinue = false;
+                    }
+                }
+                else {
+                    System.out.println("GameOver.");
+                    gameContinue = false;
+                }
             }
             //restarts if user wants
-            System.out.println("Start Over? (start) \n" + "End? (default)");
+            System.out.println("Start Over? (re) \n" + "End? (default)\n");
             String ans = scan.next();
-            if(!ans.equalsIgnoreCase("start")) {
+            if(!ans.equalsIgnoreCase("re")) {
                 game = false;
             }
             gameContinue = true;

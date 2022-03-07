@@ -1,5 +1,8 @@
+import java.util.LinkedList;
 import java.util.Locale;
+import java.util.Queue;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /**
  * TraversalSystem.java
@@ -206,6 +209,9 @@ public class TraversalSystem {
                         ansCheck = false;
                     }
                     break;
+                case "save":
+                    ansCheck = false;
+                    break;
             }
             if (ansCheck) {
                 System.out.println("not a valid answer, try again.");
@@ -249,7 +255,69 @@ public class TraversalSystem {
         }
     }
 
-        public static void lockRoom (final int theRow, final int theCol, final Room[][]theBoard){
-            theBoard[theRow][theCol] = new Room(false);
-        }
+    /**
+     * Locks room.
+     * @param theRow the row of room
+     * @param theCol column of room
+     * @param theBoard the board
+     */
+    public static void lockRoom(final int theRow, final int theCol, final Room[][]theBoard){
+        theBoard[theRow][theCol] = new Room(false);
     }
+
+    /**
+     * Checks if player can reach end room.
+     * @param theBoard the board
+     * @return boolean
+     */
+    public static boolean winnableCheck(final Room[][] theBoard) {
+
+        //use to build the paths
+        class pair {
+            final int Item1;
+            final int Item2;
+
+            pair(int f, int s) {
+                Item1 = f;
+                Item2 = s;
+            }
+        }
+        int[][] dir
+                = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+
+        Queue<pair> q = new LinkedList<>();
+
+        // Insert the top right corner.
+        q.add(new pair(playerRow, playerCol));
+
+        // Until queue is empty
+        while (q.size() > 0) {
+            pair p = (q.peek());
+            q.remove();
+
+            // Mark as visited
+            theBoard[p.Item1][p.Item2].setDoor("close");
+
+
+            // Check all four directions
+            for (int i = 0; i < 4; i++) {
+
+                int a = p.Item1 + dir[i][0];
+                int b = p.Item2 + dir[i][1];
+
+                // Not blocked and valid
+                if (a >= 0 && b >= 0 && a < InitializeMaze.getROWS() && b < InitializeMaze.getCOLUMN()
+                        && !theBoard[a][b].getDoor().equalsIgnoreCase("close")) {
+                    q.add(new pair(a, b));
+                }
+                // reach end room
+                if (p.Item1 == InitializeMaze.getROWS() - 1 && p.Item2 == InitializeMaze.getCOLUMN() - 1) {
+                    theBoard[InitializeMaze.getROWS()-1][InitializeMaze.getCOLUMN()-1].setDoor("end");
+                    return true;
+                }
+            }
+        }
+        theBoard[InitializeMaze.getROWS()-1][InitializeMaze.getCOLUMN()-1].setDoor("end");
+        return false;
+    }
+}
