@@ -1,4 +1,5 @@
+4 4
+Player open open open
 open open open open
-open open Player open
-open open open open
-open open open end
+open open open close
+open open close end

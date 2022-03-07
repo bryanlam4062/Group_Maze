@@ -27,7 +27,7 @@ public class SavingProgress {
             for(int r = 0; r < row; r++) {
                 for (int c = 0; c < col; c++) {
                     theBoard[r][c] = new Room(theFile.next());
-                    if(theBoard[r][c].getDoor().equalsIgnoreCase("locked")) {
+                    if(theBoard[r][c].getDoor().equalsIgnoreCase("close")) {
                         TraversalSystem.lockRoom(r, c, theBoard);
                     }
                     if(theBoard[r][c].getDoor().equalsIgnoreCase("Player")) {
