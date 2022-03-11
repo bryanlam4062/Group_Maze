@@ -281,8 +281,31 @@ public class TraversalSystem {
         }
     }
 
+
     /**
      * Locks room.
+     *
+     * @param theBoard the board
+     */
+    public static void lockRoom(final String theMove, final Room[][] theBoard) {
+        switch (theMove) {
+            case "up" -> {
+                theBoard[playerRow - 1][playerCol] = new Room(false);
+            }
+            case "left" -> {
+                theBoard[playerRow][playerCol - 1] = new Room(false);
+            }
+            case "right" -> {
+                theBoard[playerRow][playerCol + 1] = new Room(false);
+            }
+            case "down" -> {
+                theBoard[playerRow + 1][playerCol] = new Room(false);
+            }
+        }
+    }
+
+    /**
+     * Lock room load.
      *
      * @param theRow   the row of room
      * @param theCol   column of room
