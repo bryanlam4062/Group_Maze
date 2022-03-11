@@ -1,5 +1,0 @@
-4 4
-Player open open open
-open open open open
-open open open close
-open open close end
