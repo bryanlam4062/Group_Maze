@@ -28,7 +28,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean result;
 
-        while(game) {
+        while (game) {
             //sets up rows and column
             int row = 4;
             int col = 4;
@@ -41,13 +41,9 @@ public class Main {
             InitializeMaze.playerSpawn(board);
             InitializeMaze.endRoom(board);
 
-<<<<<<< HEAD
+
             String source = "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\";
 //            String source = "C:\\Users\\shadp\\TriviaMaze\\";
-=======
-//            "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\"
-            String source = "C:\\Users\\shadp\\TriviaMaze\\";
->>>>>>> a81e63cc84869cbf7396324643cf289663435bdb
             File file = new File(source + "saveData.txt");
             Scanner sc = new Scanner(file);
 
@@ -55,7 +51,7 @@ public class Main {
             String load = scan.next();
 
             //load board
-            if(load.equalsIgnoreCase("y")) {
+            if (load.equalsIgnoreCase("y")) {
                 board = SavingProgress.load(board, sc);
             }
 
@@ -65,18 +61,18 @@ public class Main {
                     .replace("[", "")
                     .replace(",", ""));
 
-            while(gameContinue) {
+            while (gameContinue) {
                 result = false; //Just added---------------------------------------
 
                 //checks if game is winnable
-                if(TraversalSystem.winnableCheck(board)) {
+                if (TraversalSystem.winnableCheck(board)) {
                     //checks and move
                     TraversalSystem.checkPaths(board);
                     System.out.println("\nsave game? (type save)");
                     String move = TraversalSystem.nextMove(scan);
                     //question
 
-                    if(!move.equalsIgnoreCase("save")) {
+                    if (!move.equalsIgnoreCase("save")) {
                         result = promptQuestion(input);
                         if (result) {
                             System.out.println("Correct!");
@@ -100,12 +96,11 @@ public class Main {
 
                     //game end when player reach end or user save game
                     gameContinue = (!InitializeMaze.checkEnd(board));
-                    if(move.equalsIgnoreCase("save")) {
+                    if (move.equalsIgnoreCase("save")) {
                         SavingProgress.save(board);
                         gameContinue = false;
                     }
-                }
-                else {
+                } else {
                     System.out.println("GameOver.");
                     gameContinue = false;
                 }
@@ -116,7 +111,7 @@ public class Main {
                     End? (default)
                     """);
             String ans = scan.next();
-            if(!ans.equalsIgnoreCase("re")) {
+            if (!ans.equalsIgnoreCase("re")) {
                 game = false;
             }
             gameContinue = true;
@@ -128,7 +123,8 @@ public class Main {
         Random randy = new Random();
         int randomNum = randy.nextInt(3) + 1;
 //        int randomNum = 3;  //For Testing
-        SQLiteDataSource ds = new SQLiteDataSource();;
+        SQLiteDataSource ds = new SQLiteDataSource();
+        ;
         try {
             ds.setUrl("jdbc:sqlite:identifier.sqlite");
         } catch (Exception e) {
@@ -185,22 +181,5 @@ public class Main {
         }
         return false;
     }
-
-<<<<<<< HEAD
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-=======
-}
->>>>>>> a81e63cc84869cbf7396324643cf289663435bdb

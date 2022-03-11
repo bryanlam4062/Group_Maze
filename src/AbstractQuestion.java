@@ -18,8 +18,3 @@ public class AbstractQuestion {
     public boolean verifyAnswer(String theAnswer) {
         return myAnswer.equalsIgnoreCase(theAnswer);
     }
-<<<<<<< HEAD
-}
-=======
-}
->>>>>>> a81e63cc84869cbf7396324643cf289663435bdb
