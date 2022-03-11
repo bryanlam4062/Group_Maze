@@ -248,34 +248,34 @@ public class TraversalSystem {
         switch (theMove) {
             case "up" -> {
                 if(isCHEAT()) {
-                theBoard[playerRow - 1][playerCol] = new Room("Player");
-                playerRow -= 1;
-                } else {
-                    lockRoom(playerRow - 1, playerCol, theBoard);
+                    theBoard[playerRow - 1][playerCol] = new Room("Player");
+                    playerRow -= 1;
+//                } else {
+//                    lockRoom(playerRow - 1, playerCol, theBoard);
                 }
             }
             case "left" -> {
                 if(isCHEAT()) {
-                theBoard[playerRow][playerCol - 1] = new Room("Player");
-                playerCol -= 1;
-                } else {
-                    lockRoom(playerRow - 1, playerCol, theBoard);
+                    theBoard[playerRow][playerCol - 1] = new Room("Player");
+                    playerCol -= 1;
+//                } else {
+//                    lockRoom(playerRow - 1, playerCol, theBoard);
                 }
             }
             case "right" -> {
                 if(isCHEAT()) {
-                theBoard[playerRow][playerCol + 1] = new Room("Player");
-                playerCol += 1;
-                } else {
-                    lockRoom(playerRow - 1, playerCol, theBoard);
+                    theBoard[playerRow][playerCol + 1] = new Room("Player");
+                    playerCol += 1;
+//                } else {
+//                    lockRoom(playerRow - 1, playerCol, theBoard);
                 }
             }
             case "down" -> {
                 if(isCHEAT()) {
-                theBoard[playerRow + 1][playerCol] = new Room("Player");
-                playerRow += 1;
-                } else {
-                    lockRoom(playerRow - 1, playerCol, theBoard);
+                    theBoard[playerRow + 1][playerCol] = new Room("Player");
+                    playerRow += 1;
+//                } else {
+//                    lockRoom(playerRow - 1, playerCol, theBoard);
                 }
             }
         }
@@ -283,6 +283,28 @@ public class TraversalSystem {
 
     /**
      * Locks room.
+     *
+     * @param theBoard the board
+     */
+    public static void lockRoom(final String theMove, final Room[][] theBoard) {
+        switch (theMove) {
+            case "up" -> {
+                theBoard[playerRow - 1][playerCol] = new Room(false);
+            }
+            case "left" -> {
+                theBoard[playerRow][playerCol - 1] = new Room(false);
+            }
+            case "right" -> {
+                theBoard[playerRow][playerCol + 1] = new Room(false);
+            }
+            case "down" -> {
+                theBoard[playerRow + 1][playerCol] = new Room(false);
+            }
+        }
+    }
+
+    /**
+     * Lock room load.
      *
      * @param theRow   the row of room
      * @param theCol   column of room
