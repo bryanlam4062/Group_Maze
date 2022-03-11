@@ -281,6 +281,7 @@ public class TraversalSystem {
         }
     }
 
+
     /**
      * Locks room.
      *

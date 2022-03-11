@@ -10,6 +10,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Random;
+
+import org.sqlite.SQLiteDataSource;
 
 public class Main {
     public static void main(String[] arg) throws FileNotFoundException {
@@ -33,8 +41,13 @@ public class Main {
             InitializeMaze.playerSpawn(board);
             InitializeMaze.endRoom(board);
 
+<<<<<<< HEAD
             String source = "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\";
 //            String source = "C:\\Users\\shadp\\TriviaMaze\\";
+=======
+//            "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\"
+            String source = "C:\\Users\\shadp\\TriviaMaze\\";
+>>>>>>> a81e63cc84869cbf7396324643cf289663435bdb
             File file = new File(source + "saveData.txt");
             Scanner sc = new Scanner(file);
 
@@ -173,6 +186,7 @@ public class Main {
         return false;
     }
 
+<<<<<<< HEAD
 }
 
 
@@ -187,3 +201,6 @@ public class Main {
 
 
 
+=======
+}
+>>>>>>> a81e63cc84869cbf7396324643cf289663435bdb
