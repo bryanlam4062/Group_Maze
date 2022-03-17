@@ -28,7 +28,7 @@ public class Main {
         Scanner input = new Scanner(System.in);
         boolean result;
 
-        while (game) {
+        while(game) {
             //sets up rows and column
             int row = 4;
             int col = 4;
@@ -41,9 +41,10 @@ public class Main {
             InitializeMaze.playerSpawn(board);
             InitializeMaze.endRoom(board);
 
-
-            String source = "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\";
+//            String source = "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\";
 //            String source = "C:\\Users\\shadp\\TriviaMaze\\";
+//            "E:\\UWT 2018 - present\\UWT 2021 - 2022\\Winter\\TCSS 360\\Group_Maze\\"
+            String source = "C:\\Users\\shadp\\TriviaMaze\\";
             File file = new File(source + "saveData.txt");
             Scanner sc = new Scanner(file);
 
@@ -51,7 +52,7 @@ public class Main {
             String load = scan.next();
 
             //load board
-            if (load.equalsIgnoreCase("y")) {
+            if(load.equalsIgnoreCase("y")) {
                 board = SavingProgress.load(board, sc);
             }
 
@@ -61,18 +62,18 @@ public class Main {
                     .replace("[", "")
                     .replace(",", ""));
 
-            while (gameContinue) {
+            while(gameContinue) {
                 result = false; //Just added---------------------------------------
 
                 //checks if game is winnable
-                if (TraversalSystem.winnableCheck(board)) {
+                if(TraversalSystem.winnableCheck(board)) {
                     //checks and move
                     TraversalSystem.checkPaths(board);
                     System.out.println("\nsave game? (type save)");
                     String move = TraversalSystem.nextMove(scan);
                     //question
 
-                    if (!move.equalsIgnoreCase("save")) {
+                    if(!move.equalsIgnoreCase("save")) {
                         result = promptQuestion(input);
                         if (result) {
                             System.out.println("Correct!");
@@ -96,11 +97,12 @@ public class Main {
 
                     //game end when player reach end or user save game
                     gameContinue = (!InitializeMaze.checkEnd(board));
-                    if (move.equalsIgnoreCase("save")) {
+                    if(move.equalsIgnoreCase("save")) {
                         SavingProgress.save(board);
                         gameContinue = false;
                     }
-                } else {
+                }
+                else {
                     System.out.println("GameOver.");
                     gameContinue = false;
                 }
@@ -111,7 +113,7 @@ public class Main {
                     End? (default)
                     """);
             String ans = scan.next();
-            if (!ans.equalsIgnoreCase("re")) {
+            if(!ans.equalsIgnoreCase("re")) {
                 game = false;
             }
             gameContinue = true;
@@ -119,12 +121,19 @@ public class Main {
 
     }
 
+    /**
+     * Randomly generates either a multiple choice, short answer, or
+     * multiple choice question from the database for the user to answer.
+     * Then returns a boolean value based on if the user's answer is
+     * correct.
+     * @param theInput is the user's input
+     * @return true if user's answer is correct and vice versa
+     */
     private static boolean promptQuestion(Scanner theInput) {
         Random randy = new Random();
         int randomNum = randy.nextInt(3) + 1;
 //        int randomNum = 3;  //For Testing
-        SQLiteDataSource ds = new SQLiteDataSource();
-        ;
+        SQLiteDataSource ds = new SQLiteDataSource();;
         try {
             ds.setUrl("jdbc:sqlite:identifier.sqlite");
         } catch (Exception e) {
@@ -132,7 +141,7 @@ public class Main {
             System.exit(0);
         }
 
-        if (randomNum == 1) {           //multiple choice
+        if (randomNum == 1) {           //multiple choice questions
             MultChoice questionMC;
             String query = "SELECT * FROM MultipleChoice ORDER BY RANDOM() LIMIT 1";
             try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
@@ -151,7 +160,7 @@ public class Main {
                 System.exit(0);
             }
 
-        } else if (randomNum == 2) {    //short answer
+        } else if (randomNum == 2) {    //short answer questions
             ShortAnswer questionSA;
             String query = "SELECT * FROM ShortAnswer ORDER BY RANDOM() LIMIT 1";
             try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
@@ -165,7 +174,7 @@ public class Main {
                 System.exit(0);
             }
 
-        } else if (randomNum == 3) {    //true false
+        } else if (randomNum == 3) {    //true/false questions
             TrueFalse questionTF;
             String query = "SELECT * FROM TrueFalse ORDER BY RANDOM() LIMIT 1";
             try (Connection conn = ds.getConnection(); Statement stmt = conn.createStatement()) {
@@ -181,5 +190,5 @@ public class Main {
         }
         return false;
     }
-}
 
+}
